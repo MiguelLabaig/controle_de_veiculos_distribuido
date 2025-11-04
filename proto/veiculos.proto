@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package veiculos;
+
+message Veiculo{
+    string id = 1;
+    string placa = 2;
+    string modelo = 3;
+    int32 ano = 4;
+}
+
+message Empty{
+
+}
+
+message ListaVeiculos{
+    repeated Veiculo Veiculos = 1;
+}
+
+
+
+message VeiculoId{
+    string id = 1;
+}
+
+message VeiculoPlaca{
+    string placa = 1;
+}
+
+service GestaoVeiculos{
+    rpc ListarTodos (Empty) returns (ListaVeiculos);
+
+    rpc BuscaPorId (VeiculoId) returns (Veiculo);
+
+    rpc BuscarPorPlaca (VeiculoPlaca) returns (Veiculo);
+}

@@ -1,0 +1,4 @@
+grpcio
+grpcio-tools #Para gerar os stubs
+psycopg2-binary #Drvier PostgreSQL
+SQLAlchemy #Para ORM e conexão com o DB

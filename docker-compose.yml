@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+
+  db_veiculos:
+    image: postgres:15-alpine
+    container_name: db_veiculos
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: frota_veiculos
+    ports:
+      - "5432:5432"
+    volumes:
+      - veiculos_data:/var/lib/postgresql/data
+
+  micro_veiculos:
+    build:
+      context: .
+      dockerfile: veiculos/Dockerfile
+    container_name: micro_veiculos
+    restart: on-failure
+    ports:
+      - "50051:50051"
+    depends_on:
+      - db_veiculos
+    environment:
+      DB_HOST: db_veiculos
+      DB_NAME: frota_veiculos
+      DB_USER: admin
+      DB_PASSWORD: admin
+
+volumes:
+  veiculos_data:
+
+    
