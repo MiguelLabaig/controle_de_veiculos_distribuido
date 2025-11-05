@@ -95,21 +95,41 @@ class GestaoVeiculosServicer(veiculos_pb2_grpc.GestaoVeiculosServicer):
         self.db = VeiculosDB()
 
     def ListarTodos(self, request, context):
-        """
-        Implementa o RPC ListarTodos.
-        Retorna uma lista de todos os veículos cadastrados.
-        """
-        veiculos_tuples = self.db.fetch_all()
+        # """
+        # Implementa o RPC ListarTodos.
+        # Retorna uma lista de todos os veículos cadastrados.
+        # """
+        # veiculos_tuples = self.db.fetch_all()
 
-        veiculos_grpc = []
+        # veiculos_grpc = []
+
+        # for v_id, placa, modelo, ano in veiculos_tuples:
+
+        #     veiculos_grpc.append(
+        #         veiculos_pb2.Veiculo(id=str(v_id), placa = placa, modelo = modelo, ano = ano)
+        #     )
+
+        # return veiculos_pb2.ListaVeiculos(veiculos=veiculos_grpc)
+
+        try: 
+            veiculos_tuples = self.db.fetch_all()
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set.details(f"Erro no acesso ao DB: {str(e)}")
+            return veiculos_pb2.ListarVeiculos()
+        lista_de_mensagem_grpc = []
 
         for v_id, placa, modelo, ano in veiculos_tuples:
-
-            veiculos_grpc.append(
-                veiculos_pb2.Veiculo(id=str(v_id), placa = placa, modelo = modelo, ano = ano)
+            lista_de_mensagem_grpc.append(
+                veiculos_pb2.Veiculo(
+                    id=str(v_id),
+                    placa=placa,
+                    modelo=modelo,
+                    ano=ano
+                    
+                )
             )
-
-        return veiculos_pb2.ListaVeiculos(veiculos=veiculos_grpc)
+        return veiculos_pb2.ListaVeiculos(items=lista_de_mensagem_grpc)
     
     def BuscarPorPlaca(self, request, context):
         """
@@ -147,7 +167,7 @@ def serve():
         while True:
             loop_counter += 1
             print(f"Servidor gRPC ativo. Loop de manutenção: {loop_counter}")
-            time.sleep(5)
+            time.sleep(86400)
     except KeyboardInterrupt:
         server.stop(0)
 

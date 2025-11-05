@@ -33,11 +33,12 @@ def run_test():
         try:
             response_list = stub.ListarTodos(veiculos_pb2.Empty())
 
-            print(f"SUCESSO: Total de veículos encontrados: {len(response_list.veiculos)}")
-            for v in response_list.veiculos:
-                print(f" - ID: {v.id}, Placa: {v.placa}, Modelo: {v.modelo}")
+            print(f"SUCESSO: Total de veículos encontrados: {len(response_list.items)}")
+            for veiculo in response_list.items:
+                print(f" - ID: {veiculo.id}, Placa: {veiculo.placa}, Modelo: {veiculo.modelo}")
 
         except grpc.RpcError as e:
+
             print(f"FALHA: Erro RPC recebido: {e.code().name} - {e.details()}")
 
 if __name__ == '__main__':

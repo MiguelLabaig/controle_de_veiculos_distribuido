@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eveiculos.proto\x12\x08veiculos\"A\n\x07Veiculo\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05placa\x18\x02 \x01(\t\x12\x0e\n\x06modelo\x18\x03 \x01(\t\x12\x0b\n\x03\x61no\x18\x04 \x01(\x05\"\x07\n\x05\x45mpty\"4\n\rListaVeiculos\x12#\n\x08Veiculos\x18\x01 \x03(\x0b\x32\x11.veiculos.Veiculo\"\x17\n\tVeiculoId\x12\n\n\x02id\x18\x01 \x01(\t\"\x1d\n\x0cVeiculoPlaca\x12\r\n\x05placa\x18\x01 \x01(\t2\xbc\x01\n\x0eGestaoVeiculos\x12\x37\n\x0bListarTodos\x12\x0f.veiculos.Empty\x1a\x17.veiculos.ListaVeiculos\x12\x34\n\nBuscaPorId\x12\x13.veiculos.VeiculoId\x1a\x11.veiculos.Veiculo\x12;\n\x0e\x42uscarPorPlaca\x12\x16.veiculos.VeiculoPlaca\x1a\x11.veiculos.Veiculob\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eveiculos.proto\x12\x08veiculos\"A\n\x07Veiculo\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05placa\x18\x02 \x01(\t\x12\x0e\n\x06modelo\x18\x03 \x01(\t\x12\x0b\n\x03\x61no\x18\x04 \x01(\x05\"\x07\n\x05\x45mpty\"1\n\rListaVeiculos\x12 \n\x05items\x18\x01 \x03(\x0b\x32\x11.veiculos.Veiculo\"\x17\n\tVeiculoId\x12\n\n\x02id\x18\x01 \x01(\t\"\x1d\n\x0cVeiculoPlaca\x12\r\n\x05placa\x18\x01 \x01(\t2\xbc\x01\n\x0eGestaoVeiculos\x12\x37\n\x0bListarTodos\x12\x0f.veiculos.Empty\x1a\x17.veiculos.ListaVeiculos\x12\x34\n\nBuscaPorId\x12\x13.veiculos.VeiculoId\x1a\x11.veiculos.Veiculo\x12;\n\x0e\x42uscarPorPlaca\x12\x16.veiculos.VeiculoPlaca\x1a\x11.veiculos.Veiculob\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,11 +36,11 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_EMPTY']._serialized_start=95
   _globals['_EMPTY']._serialized_end=102
   _globals['_LISTAVEICULOS']._serialized_start=104
-  _globals['_LISTAVEICULOS']._serialized_end=156
-  _globals['_VEICULOID']._serialized_start=158
-  _globals['_VEICULOID']._serialized_end=181
-  _globals['_VEICULOPLACA']._serialized_start=183
-  _globals['_VEICULOPLACA']._serialized_end=212
-  _globals['_GESTAOVEICULOS']._serialized_start=215
-  _globals['_GESTAOVEICULOS']._serialized_end=403
+  _globals['_LISTAVEICULOS']._serialized_end=153
+  _globals['_VEICULOID']._serialized_start=155
+  _globals['_VEICULOID']._serialized_end=178
+  _globals['_VEICULOPLACA']._serialized_start=180
+  _globals['_VEICULOPLACA']._serialized_end=209
+  _globals['_GESTAOVEICULOS']._serialized_start=212
+  _globals['_GESTAOVEICULOS']._serialized_end=400
 # @@protoc_insertion_point(module_scope)

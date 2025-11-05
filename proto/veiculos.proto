@@ -14,7 +14,7 @@ message Empty{
 }
 
 message ListaVeiculos{
-    repeated Veiculo Veiculos = 1;
+    repeated Veiculo items = 1;
 }
 
 

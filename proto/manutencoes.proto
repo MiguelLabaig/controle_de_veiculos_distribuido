@@ -1,0 +1,39 @@
+// proto/manutencoes.proto
+
+syntax = "proto3";
+
+package manutencoes;
+
+// 1. Mensagens de Dados
+message Manutencao {
+  string id = 1;
+  string id_veiculo = 2;
+  string placa_veiculo = 3;
+  string descricao = 4;
+  string status = 5;
+}
+
+message ListaManutencoes {
+  repeated Manutencao manutencoes = 1;
+}
+
+message ManutencaoId {
+  string id = 1;
+}
+
+message ManutencaoRequest {
+  string placa_veiculo = 1;
+  string descricao = 2;
+}
+
+// DEFINIÇÃO CLARA E CORRETA DO EMPTY
+message Empty {}
+
+
+// 2. Serviço gRPC
+service GestaoManutencoes {
+  // RPCs DEVE SER ESCRITAS ASSIM
+  rpc CriarManutencao (ManutencaoRequest) returns (Manutencao); 
+  rpc ListarManutencoes (Empty) returns (ListaManutencoes); 
+  rpc BuscarPorId (ManutencaoId) returns (Manutencao);
+}
