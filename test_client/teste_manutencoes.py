@@ -54,5 +54,34 @@ def run_test():
         print(f"SUCESSO: Tentativa bloqueada!")
         print(f"ERRO DE VALIDAÇÃO (Esperando): {e.details()}")
 
+    print("\n---- TESTE 3: Listar Todas as Manutenções ----")
+    try:
+        list_response = stub_manutencoes.ListarManutencoes(manutencoes_pb2.Empty())
+
+        total_encontrado = len(list_response.manutencoes)
+        print(f"SUCESSO: Total de manutenções encontradas: {total_encontrado}")
+
+        for manutencao in list_response.manutencoes:
+            print(f" > ID: {manutencao.id} | Placa: {manutencao.placa_veiculo} | Desc: {manutencao.descricao[:20]}... | Status: {manutencao.status}")
+
+        
+    except grpc.RpcError as e:
+        print(f"FALHA: Erro RPC ao listar: {e.code().name}")
+        print(f"Detalhes: {e.details()}")
+
+    print("\n---- TESTE 4: Buscar manutenção por ID ----")
+    manutencao_id_busca = "1"
+
+    try:
+        id_request = manutencoes_pb2.Manutencao(id=manutencao_id_busca)
+        response = stub_manutencoes.BuscarPorId(id_request)
+
+        print(f"SUCESSO: Manutencao ID {manutencao_id_busca} encontrada!")
+        print(f" > ID: {response.id} | Placa: {response.placa_veiculo} | Status: {response.status}")
+
+    except grpc.RpcError as e:
+        print(f"FALHA: Erro RPC ao buscar por ID: {e.code().name}")
+        print(f"Detalhes: {e.details()}")
+
 if __name__ == "__main__":
     run_test()

@@ -77,6 +77,22 @@ class ManutencoesDB:
         result = self._cursor.fetchone()
         return result
     
+    def list_all_manutencoes(self):
+        query = "SELECT id, id_veiculo, placa_veiculo, descricao, status FROM manutencoes;"
+        self._cursor.execute(query)
+        results = self._cursor.fetchall()
+        return results
+    
+    def get_manutencao_by_id(self, manutencao_id):
+        """Busca uma manutenção pelo ID."""
+        query = "SELECT id, id_veiculo, placa_veiculo, descricao, status FROM manutencoes WHERE id = %s;"
+        
+        self._cursor.execute(query, (str(manutencao_id)))
+        result = self._cursor.fetchone()
+
+        return result
+        
+    
 
 class GestaoManutencoesServicer(manutencoes_pb2_grpc.GestaoManutencoesServicer):
     def __init__(self):
@@ -123,9 +139,51 @@ class GestaoManutencoesServicer(manutencoes_pb2_grpc.GestaoManutencoesServicer):
         
 
     def ListarManutencoes(self, request, context):
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Método ListarManutencoes não implementado.')
-        return manutencoes_pb2.ListarManutencoes()
+        try:
+            db_results = self.db.list_all_manutencoes()
+            lista_manutencoes = manutencoes_pb2.ListaManutencoes()
+            for m_id, id_veiculo, placa_veiculo, descricao, status in db_results:
+                lista_manutencoes.manutencoes.append(
+                    manutencoes_pb2.Manutencao(
+                        id = str(m_id),
+                        id_veiculo = id_veiculo,
+                        placa_veiculo = placa_veiculo,
+                        descricao = descricao,
+                        status = status
+                    )
+                )
+
+            return lista_manutencoes
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(f"Erro interno ao listar manutenções: {str(e)}")
+            return manutencoes_pb2.ListarManutencoes()
+        
+    def BuscarPorId(self, request, context):
+        try:
+            m_id = int(request.id)
+            db_result = self.db.get_manutencao_by_id(m_id)
+
+            if not db_result:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details(f"Manutenção com ID {m_id} não encontrada.")
+                return manutencoes_pb2.Manutencao()
+            
+            m_id, id_veiculo, placa_veiculo, descricao, status = db_result
+
+            return manutencoes_pb2.Manutencao(
+                id=str(m_id),
+                id_veiculo=id_veiculo,
+                placa_veiculo=placa_veiculo,
+                descricao=descricao,
+                status=status
+            )
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(f"Erro interno ao buscar manutenção por ID: {str(e)}")
+            return manutencoes_pb2.Manutencao()
+        
+
     
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
